@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>For Daddy | A Birthday Mystery</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+  :root { --night:#101d2c; --navy:#1a3045; --gold:#d2a95f; --cream:#fbf7ee; --light:#efe7d9; --ink:#203046; --muted:#677384; --error:#9c3f3f; }
+  * {box-sizing:border-box}
+  body {margin:0;background:radial-gradient(circle at 10% 0%,#2e4353 0,transparent 40%),linear-gradient(135deg,#101b2a,#192f43);font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;padding:40px 16px 70px}
+  .page {max-width:790px;margin:auto}
+  .top {text-align:center;color:var(--cream);margin:0 auto 30px}
+  .eyebrow {font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:700}
+  h1,h2,h3 {font-family:'Playfair Display',Georgia,serif;font-weight:600}
+  h1 {font-size:clamp(2.7rem,7vw,4.4rem);margin:16px 0 14px;line-height:1.12}
+  .top p {max-width:590px;margin:0 auto;color:#d3d6d7;line-height:1.8}
+  .rule {width:75px;height:2px;background:var(--gold);margin:23px auto}
+  .panel {background:var(--cream);border:1px solid #dcccae;border-radius:18px;box-shadow:0 22px 60px #0004;overflow:hidden}
+  .panel-header {background:var(--navy);color:var(--cream);padding:24px 30px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .panel-header strong {font-size:.78rem;letter-spacing:.16em;text-transform:uppercase}
+  .pill {border:1px solid #c9a565;color:#ecd3a3;border-radius:99px;padding:7px 13px;font-size:.73rem;letter-spacing:.04em}
+  .panel-inner {padding:clamp(22px,5vw,42px)}
+  .intro {line-height:1.8;color:#526172;margin:0 0 26px}
+  .question {border-top:1px solid #e5d9c8;padding:23px 0 21px;display:grid;grid-template-columns:44px 1fr;gap:14px}
+  .question:last-of-type {border-bottom:1px solid #e5d9c8}
+  .number {height:34px;width:34px;border-radius:50%;background:#efe2c8;color:#73521f;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+  label.question-label {display:block;line-height:1.6;font-size:.98rem;margin-bottom:12px;font-weight:600}
+  .hint {font-size:.78rem;color:var(--muted);margin:7px 0 0}
+  input.digit-input {font-family:inherit;font-weight:700;font-size:1.18rem;letter-spacing:.18em;border:1px solid #c6b99e;background:white;border-radius:9px;width:104px;max-width:100%;height:47px;padding:10px 14px;color:var(--navy);outline:0}
+  input.digit-input:focus, #finalCode:focus {border-color:var(--gold);box-shadow:0 0 0 3px #d2a95f35}
+  .code-zone {text-align:center;background:#f2eadc;border-radius:13px;padding:26px 20px;margin-top:29px}
+  .code-zone h3 {margin:0 0 8px;font-size:1.6rem;color:var(--navy)}
+  .code-zone p {font-size:.88rem;color:#627084;margin:0 0 18px}
+  #finalCode {width:min(260px,100%);display:block;margin:0 auto 14px;text-align:center;letter-spacing:.29em;font-size:1.65rem;font-weight:700;height:55px;border:1px solid #c6b99e;border-radius:10px;outline:none;color:var(--navy)}
+  button {cursor:pointer;font:700 .9rem 'DM Sans',sans-serif;border:0;border-radius:9px;padding:14px 23px;transition:transform .18s,background .18s}
+  button:hover {transform:translateY(-2px)}
+  button.primary {background:var(--navy);color:white}
+  button.secondary {background:transparent;color:var(--navy);border:1px solid #b7a381}
+  button:focus-visible {outline:3px solid var(--gold);outline-offset:3px}
+  .message {min-height:25px;margin-top:15px;font-size:.9rem;font-weight:600}
+  .error {color:var(--error)} .success {color:#2b6d4b}
+  .hidden {display:none!important}
+  .reveal {margin-top:24px;animation:rise .6s ease both}
+  @keyframes rise {from {opacity:0;transform:translateY(16px)} to {opacity:1;transform:translateY(0)}}
+  .reveal-heading {text-align:center;padding:26px 16px 8px;color:var(--cream)}
+  .reveal-heading h2 {font-size:2.3rem;margin:9px 0}
+  .reveal-heading p {line-height:1.7;color:#d3d6d7}
+  .video-area {background:#101820;color:white;padding:22px;border-radius:14px;margin:20px}
+  video {width:100%;display:block;border-radius:8px;background:#070b10;max-height:480px}
+  .video-note {font-size:.82rem;color:#d5d9df;margin:13px 0 0;line-height:1.6}
+  .video-actions {text-align:center;padding-bottom:23px}
+  .voucher {padding:35px;position:relative}
+  .voucher::before {content:'✦';position:absolute;right:24px;top:17px;color:#d9c7a9;font-size:48px}
+  .voucher-brand {font-size:.72rem;text-transform:uppercase;letter-spacing:.2em;color:#8e6c32;font-weight:700}
+  .voucher h2 {color:var(--navy);font-size:clamp(2rem,5vw,3rem);margin:13px 0}
+  .voucher > p {line-height:1.8;color:#596577;max-width:630px}
+  .gifts {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:24px 0}
+  .gift {border:1px solid #ded1b8;background:#fffdf8;border-radius:12px;padding:20px}
+  .gift .gift-number {text-transform:uppercase;font-size:.68rem;letter-spacing:.14em;color:#9d7740;font-weight:700}
+  .gift h3 {font-size:1.4rem;margin:9px 0}
+  .gift p {color:#677384;line-height:1.65;font-size:.88rem;margin:0}
+  .closing {border-top:1px solid #e3d5bc;padding-top:19px;line-height:1.8;font-style:italic;color:#596577}
+  .signature {text-align:center;color:#f4e1b9;font-family:'Playfair Display',Georgia,serif;font-size:1.7rem;margin-top:30px}
+  .confetti {pointer-events:none;position:fixed;inset:0;overflow:hidden;z-index:10}
+  .confetti span {position:absolute;top:-30px;width:7px;height:12px;background:var(--gold);animation:fall 3.6s linear forwards}
+  @keyframes fall {to {transform:translateY(110vh) rotate(650deg);opacity:0}}
+  @media(max-width:580px){body{padding-top:25px}.panel-header{padding:19px 20px}.question{grid-template-columns:34px 1fr}.gifts{grid-template-columns:1fr}.voucher{padding:25px}.video-area{margin:12px}}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<main class="page">
+  <header class="top">
+    <div class="eyebrow">A Special Birthday Challenge</div>
+    <h1>The Man. The Myth.<br>The Legend. Dad.</h1>
+    <div class="rule"></div>
+    <p>Today, the man with all the answers has a few questions to solve. Your birthday surprise is waiting, but first, you must crack the family code.</p>
+  </header>
+
+  <section class="panel" id="challenge" aria-labelledby="challenge-title">
+    <div class="panel-header"><strong id="challenge-title">Operation: Dad's Birthday</strong><span class="pill">5 clues · 6 digits · 1 surprise</span></div>
+    <div class="panel-inner">
+      <p class="intro">Dear Dad, you've spent years teaching, guiding, and figuring things out for us. Now it's your turn to put that brilliant mind to work. Each answer provides part of a <strong>six-digit secret code</strong>. Keep your answers in order, and don't forget your BODMAS!</p>
+      <div class="question"><span class="number">01</span><div><label class="question-label" for="q1">Of your progeny, there is one who treasures rice above all else. This individual is the _____ of three.</label><input class="digit-input" id="q1" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" aria-label="Answer to clue 1"><p class="hint">One digit.</p></div></div>
+      <div class="question"><span class="number">02</span><div><label class="question-label" for="q2">How many of your children were born before 1994?</label><input class="digit-input" id="q2" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" aria-label="Answer to clue 2"><p class="hint">One digit.</p></div></div>
+      <div class="question"><span class="number">03</span><div><label class="question-label" for="q3">Think back to the vehicle that once ferried your children to and from Association. What is the sum of the <em>first two digits</em> on its licence plate?</label><input class="digit-input" id="q3" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" autocomplete="off" aria-label="Answer to clue 3"><p class="hint">This answer supplies two digits.</p></div></div>
+      <div class="question"><span class="number">04</span><div><label class="question-label" for="q4">A little BODMAS test: what is <strong>2 × the total number of your children</strong>?</label><input class="digit-input" id="q4" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" aria-label="Answer to clue 4"><p class="hint">One digit.</p></div></div>
+      <div class="question"><span class="number">05</span><div><label class="question-label" for="q5">How many of your children are <em>not</em> reading this alongside you right now?</label><input class="digit-input" id="q5" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" aria-label="Answer to clue 5"><p class="hint">One digit.</p></div></div>
+      <div class="code-zone">
+        <h3>The Final Combination</h3>
+        <p>Put your five answers together, in order, to form a six-digit code.</p>
+        <form id="unlockForm" novalidate>
+          <input id="finalCode" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="••••••" aria-label="Six-digit birthday code" autocomplete="off" required />
+          <button class="primary" type="submit">Unlock My Birthday Surprise ✦</button>
+          <div id="feedback" class="message" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="videoReveal" class="reveal hidden" aria-labelledby="video-title">
+    <div class="reveal-heading"><div class="eyebrow">Code Accepted · Mission Accomplished</div><h2 id="video-title">You cracked it, Dad! 🎉</h2><p>Before you unwrap your gift, there's a little something we'd like you to see.</p></div>
+    <div class="panel">
+      <div class="video-area">
+        <!-- CHANGE VIDEO FILE HERE: place dad-birthday-video.mp4 beside this HTML file, or paste a hosted MP4 URL. -->
+        <video id="birthdayVideo" controls playsinline preload="metadata"><source src="dad-birthday-video.mp4" type="video/mp4">Your browser does not support HTML5 video.</video>
+        <p class="video-note">A birthday message made especially for you, with love. ❤️</p>
+      </div>
+      <div class="video-actions"><button class="secondary" id="openGift" type="button">Continue to your gift →</button></div>
+    </div>
+  </section>
+
+  <section id="giftReveal" class="reveal hidden" aria-labelledby="gift-title">
+    <div class="panel voucher">
+      <div class="voucher-brand">A Birthday Gift · Reserved for Dad</div>
+      <h2 id="gift-title">For Dad, with all our love ✨</h2>
+      <p>For every sacrifice, every lesson, every laugh, and every way you have shown up for us: thank you. Today, we celebrate <em>you</em>.</p>
+      <div class="gifts">
+        <article class="gift"><div class="gift-number">Gift 01</div><h3>🎁 Your First Surprise</h3><p>Replace this with the description of Dad's first birthday gift.</p></article>
+        <article class="gift"><div class="gift-number">Gift 02</div><h3>⭐ Your Second Surprise</h3><p>Replace this with the description of Dad's second birthday gift. Remove this card if there is only one gift.</p></article>
+      </div>
+      <div class="closing">No code could ever measure how much you mean to us. Thank you for being our father, our guide, and one of our greatest blessings. May this new chapter bring you health, happiness, peace, and wonderful memories.</div>
+    </div>
+    <div class="signature">Happy Birthday, Dad! ❤️</div>
+  </section>
+</main>
+<div id="confetti" class="confetti" aria-hidden="true"></div>
+<script>
+  // Answers, in sequence: 2 | 0 | 10 | 6 | 2 = 201062
+  const ANSWERS = ['2', '0', '10', '6', '2'];
+  const SECRET_CODE = ANSWERS.join('');
+  const clueInputs = ANSWERS.map((_, i) => document.getElementById('q' + (i + 1)));
+  const codeInput = document.getElementById('finalCode');
+  const feedback = document.getElementById('feedback');
+  const videoReveal = document.getElementById('videoReveal');
+  const giftReveal = document.getElementById('giftReveal');
+  const video = document.getElementById('birthdayVideo');
+  let unlocked = false;
+
+  // Keep inputs numeric and offer a convenient code preview when all clues are filled.
+  clueInputs.forEach((input) => {
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/\D/g, '').slice(0, Number(input.maxLength));
+      if (clueInputs.every(i => i.value.length === i.maxLength)) {
+        codeInput.value = clueInputs.map(i => i.value).join('');
+      }
+    });
+  });
+  codeInput.addEventListener('input', () => { codeInput.value = codeInput.value.replace(/\D/g, '').slice(0, 6); });
+
+  document.getElementById('unlockForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (unlocked) return;
+    const allAnswered = clueInputs.every(input => input.value.length === input.maxLength);
+    if (!allAnswered) { showError('Answer all five clues before unlocking your surprise.'); return; }
+    if (clueInputs.some((input, i) => input.value !== ANSWERS[i])) {
+      showError('One or more clues need another look. Check your answers, Dad!'); return;
+    }
+    if (codeInput.value !== SECRET_CODE) {
+      showError('Almost there! Put your clue answers together in the correct order.'); return;
+    }
+    unlocked = true;
+    feedback.className = 'message success';
+    feedback.textContent = 'Correct! The birthday surprise is yours. 🎉';
+    videoReveal.classList.remove('hidden');
+    videoReveal.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    burstConfetti();
+  });
+  function showError(message) { feedback.className='message error'; feedback.textContent=message; }
+  function revealGift() {
+    if (!unlocked) return;
+    giftReveal.classList.remove('hidden');
+    giftReveal.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    burstConfetti();
+  }
+  document.getElementById('openGift').addEventListener('click', revealGift);
+  video.addEventListener('ended', revealGift);
+  // If a video has not been added, the Continue button still lets Dad view the gift.
+  function burstConfetti() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const wrap = document.getElementById('confetti'); wrap.replaceChildren();
+    for (let i = 0; i < 45; i++) {
+      const bit = document.createElement('span');
+      bit.style.left = (Math.random() * 100) + '%';
+      bit.style.background = ['#d2a95f','#f4e6bd','#9bb4c8','#fff'][i % 4];
+      bit.style.animationDelay = (Math.random() * 1) + 's';
+      bit.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+      wrap.appendChild(bit);
+    }
+    setTimeout(() => wrap.replaceChildren(), 5600);
+  }
+</script>
+</body>
+</html>
